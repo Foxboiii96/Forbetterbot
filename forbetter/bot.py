@@ -1,20 +1,25 @@
 import os
-import hikari
+import logging
 import lightbulb
-from dotenv import load_dotenv
+from forbetter import config
 
-load_dotenv(dotenv_path=".env")
+logging.basicConfig(level=logging.INFO)
 
-bot = lightbulb.BotApp(token=os.environ["DISCORD_TOKEN"])
+bot = lightbulb.BotApp(token=config.DISCORD_TOKEN)
 
 def load_plugins():
-    for filename in os.listdir("forbetter/plugins"):
+    plugins_dir = os.path.join(os.path.dirname(__file__), "plugins")
+    for filename in os.listdir(plugins_dir):
         if filename.endswith(".py") and not filename.startswith("_"):
-            bot.load_extensions(f"forbetter.plugins.{filename[:-3]}")
+            try:
+                bot.load_extensions(f"forbetter.plugins.{filename[:-3]}")
+                logging.info(f"Loaded plugin {filename}")
+            except Exception as e:
+                logging.error(f"Failed to load plugin {filename}: {e}")
 
-@bot.listen(hikari.StartedEvent)
-async def on_started(event: hikari.StartedEvent) -> None:
-    print("Bot has started!")
+@bot.listen(lightbulb.LightbulbStartedEvent)
+async def on_started(event: lightbulb.LightbulbStartedEvent) -> None:
+    logging.info("Bot has started!")
 
 if __name__ == "__main__":
     load_plugins()
