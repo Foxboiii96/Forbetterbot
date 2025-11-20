@@ -33,6 +33,9 @@ async def on_error(event: lightbulb.CommandErrorEvent) -> None:
     )
 
 
-if __name__ == "__main__":
+def main():
     load_plugins()
     bot.run()
+
+if __name__ == "__main__":
+    main()

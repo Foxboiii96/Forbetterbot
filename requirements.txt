@@ -6,16 +6,13 @@ attrs==25.4.0
 colorlog==6.10.1
 confspec==0.0.5
 frozenlist==1.8.0
-greenlet==3.2.4
 hikari==2.5.0
 hikari-lightbulb==3.2.2
 idna==3.11
 linkd==0.2.0
 multidict==6.7.0
-playwright==1.55.0
 propcache==0.4.1
-pyee==13.0.0
-python-dotenv==1.2.1
 typing_extensions==4.15.0
 uvloop==0.22.1
 yarl==1.22.0
+toml
