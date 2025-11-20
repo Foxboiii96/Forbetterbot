@@ -51,16 +51,48 @@ Here's an example of a simple "hello" command:
 # forbetter/plugins/hello.py
 import lightbulb
 
-hello_plugin = lightbulb.Plugin("hello")
+loader = lightbulb.Loader("hello")
 
-@hello_plugin.command
-@lightbulb.command("hello", "Says hello to the user.")
-@lightbulb.implements(lightbulb.SlashCommand)
-async def hello(ctx: lightbulb.Context) -> None:
-    await ctx.respond(f"Hello, {ctx.author.username}!")
-
-def load(bot: lightbulb.BotApp) -> None:
-    bot.add_plugin(hello_plugin)
+@loader.command
+class Hello(
+    lightbulb.SlashCommand,
+    name="hello",
+    description="Says hello to the user.",
+):
+    @lightbulb.invoke
+    async def callback(self, ctx: lightbulb.Context) -> None:
+        await ctx.respond(f"Hello, {ctx.author.username}!")
 ```
 
 The bot will automatically pick up the new command and make it available on Discord.
+
+## Testing
+
+This project uses `pytest` for testing. To run the tests, use the following command:
+
+```bash
+PYTHONPATH=. pytest
+```
+
+## Linting and Formatting
+
+This project uses `flake8` for linting and `black` for code formatting. To run the linter and formatter, use the following commands:
+
+```bash
+flake8 .
+black .
+```
+
+## Docker
+
+This project includes a `Dockerfile` to make it easy to build and run the bot in a containerized environment. To build the Docker image, use the following command:
+
+```bash
+docker build -t forbetterbot .
+```
+
+To run the bot in a Docker container, use the following command:
+
+```bash
+docker run -d --env-file .env forbetterbot
+```
