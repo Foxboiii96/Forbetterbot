@@ -20,7 +20,7 @@ This is a fast, user-friendly, and plugin-ready Discord bot template built with 
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/forbetterbot.git
+   git clone https://github.com/foxboiii96/forbetterbot.git
    cd forbetterbot
    ```
 
