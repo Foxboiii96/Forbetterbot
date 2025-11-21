@@ -7,7 +7,7 @@ This is a fast, user-friendly, and plugin-ready Discord bot template built with 
 - **Fast and Modern:** Built on top of `hikari`, a modern and high-performance Discord API wrapper.
 - **Plugin-Ready:** Easily extend the bot's functionality by creating new plugins in the `forbetter/plugins` directory.
 - **Easy to Use:** The bot is designed to be easy to set up and use, even for beginners.
-- **Secure:** The bot's token is loaded from a `.env` file, so you don't have to hardcode it in your code.
+- **Secure:** The bot's token is loaded from a `config.toml` file, so you don't have to hardcode it in your code.
 
 ## Getting Started
 
@@ -28,39 +28,60 @@ This is a fast, user-friendly, and plugin-ready Discord bot template built with 
    ```bash
    pip install -r requirements.txt
    ```
+   For development, you can install the development dependencies with:
+   ```bash
+   pip install -r requirements-dev.txt
+   ```
 
 3. **Configure the bot's token:**
-   - Rename the `.env.example` file in the `config` directory to `.env`.
-   - Open the `.env` file and paste your Discord bot token after `DISCORD_TOKEN=`.
+   - Rename `config.example.toml` to `config.toml`.
+   - Open `config.toml` and replace `"YOUR_DISCORD_TOKEN_HERE"` with your Discord bot token.
 
 ### Running the Bot
 
 To start the bot, run the following command in the root directory of the project:
 
 ```bash
-python -m forbetter.bot
+python -m forbetter
 ```
 
 ## Creating a Plugin
 
-To create a new command, you can create a new Python file in the `forbetter/plugins` directory. The bot will automatically load it as a plugin.
+To make creating new plugins easier, you can use the `create_plugin.py` script. This will automatically generate a new plugin file with a basic command template.
 
-Here's an example of a simple "hello" command:
-
-```python
-# forbetter/plugins/hello.py
-import lightbulb
-
-hello_plugin = lightbulb.Plugin("hello")
-
-@hello_plugin.command
-@lightbulb.command("hello", "Says hello to the user.")
-@lightbulb.implements(lightbulb.SlashCommand)
-async def hello(ctx: lightbulb.Context) -> None:
-    await ctx.respond(f"Hello, {ctx.author.username}!")
-
-def load(bot: lightbulb.BotApp) -> None:
-    bot.add_plugin(hello_plugin)
+```bash
+python create_plugin.py your_plugin_name
 ```
 
-The bot will automatically pick up the new command and make it available on Discord.
+This will create a new file at `forbetter/plugins/your_plugin_name.py` with a simple command.
+
+## Testing
+
+This project uses `pytest` for testing. To run the tests, use the following command:
+
+```bash
+PYTHONPATH=. pytest
+```
+
+## Linting and Formatting
+
+This project uses `flake8` for linting and `black` for code formatting. To run the linter and formatter, use the following commands:
+
+```bash
+flake8 .
+black .
+```
+
+## Docker
+
+This project includes a `Dockerfile` to make it easy to build and run the bot in a containerized environment. To build the Docker image, use the following command:
+
+```bash
+docker build -t forbetterbot .
+```
+
+To run the bot in a Docker container, use the following command:
+
+```bash
+docker run -d -v $(pwd)/config.toml:/app/config.toml forbetterbot
+```

@@ -1,0 +1,8 @@
+.git
+.gitignore
+.dockerignore
+__pycache__
+.pytest_cache
+.flake8
+.idea
+.vscode
